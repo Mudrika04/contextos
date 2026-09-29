@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Context · ContextOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f3f4f6;--panel:#fff;--ink:#17191e;--mute:#656b76;--line:#dfe2e8;--blue:#2c6bd6;--amber:#b97a0a;--red:#c23b2b;--green:#2b8a57;--ind:#6553d0;--teal:#1f8a8a;--slate:#7b8494}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121418;--panel:#1a1d23;--ink:#eceef2;--mute:#9aa1ad;--line:#2b2f38;--blue:#6f9cf0;--amber:#e0a338;--red:#ee7466;--green:#5fbf88;--ind:#9b8df0;--teal:#54c0c0;--slate:#8c95a5}}
+:root[data-theme="dark"]{--bg:#121418;--panel:#1a1d23;--ink:#eceef2;--mute:#9aa1ad;--line:#2b2f38;--blue:#6f9cf0;--amber:#e0a338;--red:#ee7466;--green:#5fbf88;--ind:#9b8df0;--teal:#54c0c0;--slate:#8c95a5}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Hanken Grotesk",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;margin:0;font-weight:700;letter-spacing:-.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:1px solid var(--line);border-radius:4px;padding:6px 12px}
+button:hover{border-color:var(--mute)}button.pri{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+header{display:flex;gap:12px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;flex-wrap:wrap}
+.logo{font:700 18px "Bricolage Grotesque",sans-serif}.grow{flex:1;min-width:180px}
+#q{width:100%;max-width:520px;padding:8px 12px;border:1px solid var(--line);border-radius:4px;background:var(--panel)}
+main{max-width:1180px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+.s{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.hero{grid-column:1/-1;background:none;border:0;padding:8px 0}.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.15}
+.hero p{color:var(--mute);margin:6px 0 0;max-width:60ch}.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.chip{display:flex;gap:8px;align-items:center;border-radius:4px}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--slate)}
+.c8{grid-column:span 7}.c5{grid-column:span 5}.c6{grid-column:span 6}.c12{grid-column:1/-1}
+@media(max-width:860px){.c8,.c5,.c6{grid-column:1/-1}main{padding:16px 14px}}
+h2{font-size:17px;margin-bottom:4px}.sub{color:var(--mute);font-size:13px;margin:0 0 12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}.tabs button{padding:4px 10px;font-size:13px}.tabs .on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+svg text{font:11px "Hanken Grotesk",sans-serif;fill:var(--ink)}.node{cursor:pointer}.node:focus-visible{outline:none}.node:focus-visible circle{stroke:var(--blue);stroke-width:3}
+.ring{fill:none;stroke:var(--line);stroke-dasharray:2 4}
+.detail{border-top:1px solid var(--line);margin-top:10px;padding-top:12px;font-size:14px}.detail h3{font-size:16px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:3px;padding:1px 7px;font-size:12px;margin:2px 4px 2px 0;cursor:pointer;background:none}
+.High{color:var(--red)}.Medium{color:var(--amber)}.Low{color:var(--green)}
+.q{border-top:1px solid var(--line);padding:12px 0}.q:first-of-type{border-top:0}.q b{display:block}.q small{color:var(--mute)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--blue);transition:width .5s}
+.tl{border-left:2px solid var(--line);margin-left:6px}.ev{display:flex;gap:12px;padding:8px 0 8px 14px;position:relative;cursor:pointer;width:100%;border:0;text-align:left;border-radius:0}
+.ev::before{content:"";position:absolute;left:-6px;top:15px;width:10px;height:10px;border-radius:50%;background:var(--panel);border:2px solid var(--blue)}.ev.cf::before{border-color:var(--amber);background:var(--amber)}.ev.tk::before{border-color:var(--slate);border-radius:2px}
+.ev time{width:64px;color:var(--mute);flex:none;font-size:13px}
+.alert{border:1px solid var(--amber);border-left-width:4px;border-radius:4px;padding:10px 12px;margin-bottom:12px;background:color-mix(in srgb,var(--amber) 8%,var(--panel))}
+.ins{border:1px solid var(--line);border-left:3px solid var(--ind);padding:10px 12px;margin-bottom:10px;border-radius:3px}.ins.w{border-left-color:var(--amber)}
+.ins .x{float:right;border:0;padding:0 4px;color:var(--mute)}
+.load{font:700 40px "Bricolage Grotesque",sans-serif}.meter{height:14px;background:var(--line);border-radius:2px;overflow:hidden}.meter i{display:block;height:100%;transition:width .6s}
+.bars{display:flex;gap:8px;align-items:flex-end;height:110px;margin:8px 0}.bars div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:12px;color:var(--mute)}.bars i{width:100%;background:var(--blue);border-radius:2px 2px 0 0;transition:height .5s}
+.heat{display:grid;grid-template-columns:80px repeat(7,1fr);gap:4px;font-size:12px;align-items:center}.heat button{height:28px;padding:0;border-radius:3px;border:1px solid var(--line);background:color-mix(in srgb,var(--blue) calc(var(--v)*22%),transparent)}.heat button.on{outline:2px solid var(--ink)}
+.why{border:0;color:var(--ind);padding:0 4px;font-size:13px;text-decoration:underline}
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px}.empty h2{font-size:26px}
+dialog{border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);max-width:520px;width:calc(100% - 28px);padding:20px}dialog::backdrop{background:#0008}
+dialog textarea,dialog select,dialog input[type=text]{width:100%;padding:8px;margin:6px 0;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+#focus{position:fixed;inset:0;background:var(--bg);z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px}#focus h1{font-size:clamp(30px,6vw,54px)}
+#focus[hidden]{display:none}.timer{font:700 64px "Bricolage Grotesque",sans-serif;margin:16px 0}
+.sr{position:absolute;left:-9999px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+header{padding:14px 28px}.logo{display:flex;align-items:center;gap:8px}
+main{max-width:1240px;gap:24px;padding:32px 24px 72px}
+.s{border-radius:8px;padding:22px;box-shadow:0 1px 2px rgb(0 0 0/.04)}.s h2{font-size:18px}
+.hero{padding:16px 0 4px}.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.08;max-width:18ch}.hero p{font-size:17px;margin-top:10px}
+.chips{gap:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);width:max-content;max-width:100%;overflow:hidden;margin-top:20px}
+.chips .chip{border:0;border-right:1px solid var(--line);border-radius:0;padding:12px 22px;flex-direction:column;align-items:flex-start;gap:0;background:none}
+.chip b{font:700 28px/1.1 "Bricolage Grotesque",sans-serif}.chip .l{color:var(--mute);font-size:13px}
+.chips .pri{border-radius:0;padding:12px 24px;border:0;align-self:stretch}
+.tabs{gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg)}.tabs button{border:0;border-radius:0;padding:5px 12px}
+.ring{stroke-dasharray:none;opacity:.8}.node circle{transition:stroke-width .15s}.node:hover circle{stroke:var(--ink);stroke-width:2}
+.q{border-top:0;border-left:3px solid var(--line);padding:12px 0 12px 16px;margin-bottom:12px}.qHigh{border-left-color:var(--red)}.qMedium{border-left-color:var(--amber)}.qLow{border-left-color:var(--green)}
+.q b{font-size:16px}.bar{height:5px}
+.ev{border-radius:6px;background:none}.ev:hover{background:var(--bg)}.ev time{font-weight:600;color:var(--ink)}
+.meter{height:10px;border-radius:5px}.meter i{border-radius:5px}.load{font-size:52px;line-height:1.1}
+.heat{gap:6px}.heat button{height:36px;border-radius:5px}
+.bars i{border-radius:3px 3px 0 0}.ins{border-radius:6px;background:var(--bg)}
+.empty{padding:90px 20px}.empty svg{display:block;margin:0 auto 18px}.empty .sub{max-width:44ch;margin:8px auto 20px}
+</style></head><body>
+<header><span class="logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"/><circle cx="19" cy="9" r="1.6" fill="var(--blue)" stroke="none"/></svg>ContextOS</span><div class="grow"><label class="sr" for="q">Search</label><input id="q" placeholder="Ask about your context..." autocomplete="off"></div>
+<button class="pri" data-a="cap">+ Capture</button></header>
+<main id="app"></main><dialog id="dlg"></dialog><div id="focus" hidden></div>
+<script>
+const $=s=>document.querySelector(s),esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const mk=(id,type,title,o={})=>({id,type,title,cat:'Tasks',d:0,h:null,dur:1,imp:.5,prog:0,src:'Manual entry',conf:1,links:[],done:false,...o});
+const S={real:[],day:0,sel:null,view:'radar',metric:'Tasks',dis:new Set(),pinHeat:null,
+hist:{real:{Tasks:[0,0,0,0,0,0,0],Deadlines:[0,0,0,0,0,0,0],Projects:[0,0,0,0,0,0,0],Study:[0,0,0,0,0,0,0]}}};
+const I=()=>S.real,H=()=>S.hist.real,by=id=>I().find(i=>i.id===id);
+const dt=n=>{const x=new Date();x.setHours(0,0,0,0);x.setDate(x.getDate()+n);return x};
+const wd=n=>dt(n).toLocaleDateString('en',{weekday:'short'}),dstr=n=>dt(n).toLocaleDateString('en',{month:'short',day:'numeric'});
+const hh=h=>{const m=Math.round(h%1*60),H=Math.floor(h);return `${(H+11)%12+1}:${String(m).padStart(2,'0')} ${H<12?'AM':'PM'}`};
+const when=i=>(i.d===0?'Today':i.d===1?'Tomorrow':i.d<0?dstr(i.d):wd(i.d)+' '+dstr(i.d))+(i.h!=null?' · '+hh(i.h):'');
+const COL={project:'var(--ind)',task:'var(--blue)',deadline:'var(--amber)',event:'var(--teal)',document:'var(--slate)',person:'var(--mute)',organization:'var(--mute)'};
+/* ---- "API": each function mirrors an endpoint and reads only from the store ---- */
+const act=()=>I().filter(i=>!i.done&&['task','event','deadline'].includes(i.type)&&i.d>=0&&i.d<=14);
+function conflicts(){const o=[];for(let d=0;d<14;d++){const e=I().filter(i=>i.type==='event'&&i.d===d&&!i.done).sort((a,b)=>a.h-b.h);for(let k=1;k<e.length;k++){const a=e[k-1],b=e[k];if(b.h*60<(a.h+a.dur)*60+(b.trav||0))o.push([a,b])}}return o}
+function score(i){const cf=conflicts().some(p=>p.includes(i)),p={urgency:.5/(1+i.d),importance:.3*i.imp,remaining:i.type==='task'?.2*(1-i.prog/100):0,conflict:cf?.3:0,dependencies:.04*Math.min(i.links.length,4)};
+const s=Object.values(p).reduce((a,b)=>a+b,0);return{s,p,cf,risk:s>=.55?'High':s>=.35?'Medium':'Low'}}
+const ranked=()=>act().map(i=>({i,...score(i)})).sort((a,b)=>b.s-a.s);
+const api={
+summary(){const A=act(),r=ranked(),cf=conflicts(),tasks=A.filter(i=>i.type==='task').length,dl=A.filter(i=>i.type==='deadline'&&i.d<=7).length,ev=A.filter(i=>i.type==='event'&&i.d<=7).length;
+const raw=tasks*4+dl*6+ev*2+cf.length*10,load=Math.min(100,raw);return{empty:!I().length,att:r.filter(x=>x.risk!=='Low').length,dl,cf,tasks,ev,raw,load,lvl:load<35?'Light':load<70?'Moderate':'Heavy'}},
+attention:()=>ranked().slice(0,4),
+timeline(d){const src=I().filter(i=>!i.done&&i.d===d&&['event','task','deadline'].includes(i.type));return src.sort((a,b)=>(a.h??8)-(b.h??8))},
+graph:()=>I(),
+insights(){const o=[],A=act();const pr=I().filter(i=>i.type==='project');pr.forEach(p=>{const n=p.links.map(by).filter(x=>x&&x.type==='task'&&!x.done).length;if(n>=3)o.push({id:'pat'+p.id,k:'Pattern detected',t:`You have ${n} unfinished tasks related to ${p.title}.`,go:p.id,b:'View project context'})});
+const dl=A.filter(i=>i.type==='deadline'&&i.d<=7);if(dl.length>=3)o.push({id:'dl',w:1,k:'Deadline pattern',t:`You have ${dl.length} deadlines within the next 7 days.`,go:dl[0].id,b:'Plan your week'});
+I().filter(i=>i.isNew&&i.links.length>1).forEach(d=>o.push({id:'con'+d.id,k:'Connection found',t:`${d.title} appears related to ${d.links.map(by).filter(Boolean).map(x=>x.title).join(' and ')}.`,go:d.id,b:'View connection'}));
+return o.filter(x=>!S.dis.has(x.id))},
+progress(m){const h=H()[m],all=I(),a=act().length,dn=all.filter(i=>i.done).length,t=h.reduce((x,y)=>x+y,0);return{h,rate:t+a?Math.round(100*t/(t+a)):0}},
+heatmap(){const cats=[...new Set(I().filter(i=>i.d>=0&&i.d<7).map(i=>i.cat))];return cats.map(c=>({c,v:[...Array(7)].map((_,d)=>I().filter(i=>i.cat===c&&i.d===d&&!i.done).length)}))}};
+/* ---- rendering ---- */
+const reasons=x=>{const i=x.i,r=[];r.push(`${i.type==='task'?'Due':'Scheduled'} ${when(i).toLowerCase()}`);if(i.type==='task'&&i.prog<100)r.push(`Only ${i.prog}% complete`);if(x.cf)r.push('Overlaps with another event once travel is counted');
+i.links.map(by).filter(o=>o&&o.type==='event'&&o.id!==i.id).forEach(o=>r.push(`Linked to ${o.title} (${when(o).toLowerCase()})`));if(i.imp>=.8)r.push('Marked high importance');return r};
+const srcs=i=>[...new Set([i.src,...i.links.map(by).filter(o=>o&&o.type==='document').map(o=>o.title)])];
+const risk=(v)=>`<span class="${v}">${v}</span>`;
+function radar(){const N=I(),sc=Object.fromEntries(ranked().map(x=>[x.i.id,x])),sel=S.sel&&by(S.sel),lk=sel?new Set([sel.id,...sel.links]):null;
+const nodes=S.view==='radar'?ranked().slice(0,12).map(x=>x.i):N,cnt={},sec={deadline:-60,event:10,task:190,project:110,document:250,organization:300,person:330};
+const P=nodes.map(i=>{const k=cnt[i.type]=(cnt[i.type]||0)+1,a=(sec[i.type]+((k%5)-2)*17+Math.floor(k/5)*8)*Math.PI/180;let r;
+if(S.view==='radar')r=42+(1-Math.min(sc[i.id].s,1))*140;else r=sel?(i.id===sel.id?45:lk.has(i.id)?80:sel.links.some(l=>(by(l)||{links:[]}).links.includes(i.id))?125:172):60+(1-i.imp)*115;
+return{i,x:200+r*Math.cos(a),y:200+r*Math.sin(a),z:5+i.imp*8}}),pos=Object.fromEntries(P.map(p=>[p.i.id,p]));
+let L='';if(S.view==='orbit')P.forEach(p=>p.i.links.forEach(l=>{if(pos[l]&&p.i.id<l){const on=sel&&(p.i.id===sel.id||l===sel.id);L+=`<line x1="${p.x}" y1="${p.y}" x2="${pos[l].x}" y2="${pos[l].y}" stroke="var(--${on?'ink':'line'})" stroke-width="${on?1.6:1}"/>`}}));
+const nd=P.map((p,k)=>{const i=p.i,dim=lk&&!lk.has(i.id),rk=sc[i.id]?.risk,show=sel?lk.has(i.id):k<7;
+return`<g class="node" data-a="sel" data-v="${i.id}" tabindex="0" role="button" aria-label="${esc(i.title)}, ${i.type}" opacity="${dim?.25:1}"><circle cx="${p.x}" cy="${p.y}" r="${p.z}" fill="${COL[i.type]}" ${rk&&rk!=='Low'?`stroke="var(--${rk==='High'?'red':'amber'})" stroke-width="3"`:''}/>${show?`<text x="${p.x}" y="${p.y-p.z-4}" text-anchor="middle">${esc(i.title.slice(0,20))}</text>`:''}<title>${esc(i.title)}</title></g>`}).join('');
+return`<svg viewBox="0 0 400 400" role="group" aria-label="${S.view==='radar'?'Attention radar':'Context orbit'}" style="width:100%;max-height:440px"><circle class="ring" cx="200" cy="200" r="60"/><circle class="ring" cx="200" cy="200" r="110"/><circle class="ring" cx="200" cy="200" r="165"/>${L}${S.view==='radar'?'<text x="200" y="137" text-anchor="middle" style="fill:var(--mute);font-size:10px">now</text><text x="200" y="87" text-anchor="middle" style="fill:var(--mute);font-size:10px">soon</text><text x="200" y="32" text-anchor="middle" style="fill:var(--mute);font-size:10px">later</text>':''}<circle cx="200" cy="200" r="13" fill="var(--ink)"/><text x="200" y="226" text-anchor="middle">You</text>${nd}</svg>`}
+function detail(){const i=S.sel&&by(S.sel);if(!i)return`<div class="detail sub">${S.view==='radar'?'Closer to the centre means more urgent. A red or amber ring marks risk.':'Distance shows importance. Select a node to pull in what connects to it.'} Select any node for details.</div>`;
+const x=score(i),rel=i.links.map(by).filter(Boolean),g={};rel.forEach(o=>g[o.type]=(g[o.type]||0)+1);
+return`<div class="detail"><h3>${esc(i.title)}</h3><div class="sub">${i.type} · ${when(i)} · source: ${esc(i.src)} · confidence ${Math.round(i.conf*100)}%${['task','event','deadline'].includes(i.type)?' · risk '+risk(x.risk):''}</div>
+<div>${rel.length?`${rel.length} connected: ${Object.entries(g).map(([k,v])=>k+' '+v).join(', ')}<br>`+rel.map(o=>`<button class="tag" data-a="sel" data-v="${o.id}"><span class="dot" style="background:${COL[o.type]}"></span> ${esc(o.title)}</button>`).join(''):'No connected items yet.'}</div>
+<div class="row" style="justify-content:flex-start;margin-top:8px">${['task','event','deadline'].includes(i.type)?`<button data-a="why" data-v="${i.id}">Why?</button><button data-a="done" data-v="${i.id}">Mark complete</button><button data-a="focus" data-v="${i.id}">Focus on this</button>`:''}<button data-a="view" data-v="orbit">Explore context</button></div></div>`}
+function timeline(){const t=S.day;let body;
+if(t<0)body=[...Array(7)].map((_,d)=>`<div class="q"><b>${wd(d)} ${dstr(d)}</b>${api.timeline(d).map(i=>`<button class="tag" data-a="sel" data-v="${i.id}">${esc(i.title)}</button>`).join('')||'<small>Nothing scheduled</small>'}</div>`).join('');
+else{const cf=conflicts().flat(),L=api.timeline(t);body=L.length?`<div class="tl">${L.map(i=>`<button class="ev ${cf.includes(i)?'cf':''} ${i.type!=='event'?'tk':''}" data-a="sel" data-v="${i.id}"><time>${i.h!=null?hh(i.h):'Any time'}</time><span><b>${esc(i.title)}</b><small>${i.type}${i.type==='task'?' · '+i.prog+'%':''}${cf.includes(i)?' · ⚠ conflict':''}</small></span></button>`).join('')}</div>`:'<p class="sub">Nothing on this day.</p>'}
+const c=conflicts().find(p=>t<0||p[0].d===t);
+return`<div class="row"><div><h2>Your day</h2><p class="sub">${t<0?'The week ahead':wd(t)+' '+dstr(t)}</p></div><div class="tabs">${[...Array(7)].map((_,d)=>`<button data-a="day" data-v="${d}" class="${d===t?'on':''}">${d?wd(d):'Today'}</button>`).join('')}<button data-a="day" data-v="-1" class="${t<0?'on':''}">Week</button></div></div>
+${c?`<div class="alert"><b>Possible conflict · ${when({d:c[0].d})}</b><br>${esc(c[0].title)} ${hh(c[0].h)} and ${esc(c[1].title)} ${hh(c[1].h)}${c[1].trav?`. Estimated travel ~${c[1].trav} min.`:''} <button data-a="cf" data-v="${c[0].id}">View details</button></div>`:''}${body}`}
+const KEY='contextos.v1',save=()=>{try{localStorage.setItem(KEY,JSON.stringify({r:S.real,h:S.hist.real}))}catch(e){}};
+try{const z=JSON.parse(localStorage.getItem(KEY)||'null');if(z){S.real=z.r||[];S.hist.real=z.h||S.hist.real}}catch(e){}
+function render(){save();const s=api.summary(),a=$('#app');
+if(s.empty){a.innerHTML=`<div class="empty"><svg width="140" height="140" viewBox="0 0 140 140" fill="none" stroke="var(--line)" stroke-width="1.5" aria-hidden="true"><circle cx="70" cy="70" r="60"/><circle cx="70" cy="70" r="40" stroke-dasharray="3 5"/><circle cx="70" cy="70" r="7" fill="var(--ink)" stroke="none"/><circle cx="112" cy="46" r="5" fill="var(--blue)" stroke="none"/><circle cx="34" cy="98" r="4" fill="var(--amber)" stroke="none"/><circle cx="60" cy="18" r="3" fill="var(--teal)" stroke="none"/></svg><h2>Your context is empty</h2><p class="sub">Your personal context will appear here as you add documents, notes, tasks and events.</p><button class="pri" data-a="cap">+ Capture something important</button></div>`;return}
+const hr=new Date().getHours(),g=hr<12?'morning':hr<17?'afternoon':'evening',top=api.attention()[0];
+const ins=api.insights(),pr=api.progress(S.metric),hm=api.heatmap(),col=s.load<35?'green':s.load<70?'amber':'red';
+a.innerHTML=`<section class="s hero"><h1>Good ${g}. ${s.lvl==='Light'?'A light day ahead.':s.lvl==='Moderate'?'A fairly full stretch.':'A heavy stretch ahead.'}</h1>
+<p>${top?`Start with ${esc(top.i.title)}, ${when(top.i).toLowerCase()}.`:'Nothing urgent right now.'}</p>
+<div class="chips"><button class="chip" data-a="scroll" data-v="queue"><b>${s.att}</b><span class="l">need attention</span></button><button class="chip" data-a="scroll" data-v="tl"><b>${s.dl}</b><span class="l">deadlines this week</span></button><button class="chip" data-a="scroll" data-v="tl"><b>${s.cf.length}</b><span class="l">possible conflicts</span></button>${top?`<button class="pri" data-a="focus" data-v="${top.i.id}">Start focus mode</button>`:''}</div></section>
+<section class="s c6" id="orb"><div class="row"><div><h2>${S.view==='radar'?'Attention radar':'Context orbit'}</h2></div><div class="tabs"><button data-a="view" data-v="radar" class="${S.view==='radar'?'on':''}">Radar</button><button data-a="view" data-v="orbit" class="${S.view==='orbit'?'on':''}">Orbit</button></div></div>${radar()}${detail()}</section>
+<section class="s c6" id="queue"><h2>What needs your attention?</h2><p class="sub">Ranked by urgency, importance, work remaining, conflicts and connections.</p>${api.attention().map((x,k)=>`<div class="q q${x.risk}"><b>${esc(x.i.title)}</b><small>${when(x.i)}</small>${x.i.type==='task'?`<div class="bar"><i style="width:${x.i.prog}%"></i></div>`:''}<div>${reasons(x)[1]||reasons(x)[0]}. Risk: ${risk(x.risk)} <button class="why" data-a="why" data-v="${x.i.id}">Why?</button></div><div class="row" style="justify-content:flex-start;margin-top:6px"><button data-a="sel" data-v="${x.i.id}">Open</button>${x.i.type==='task'?`<button data-a="done" data-v="${x.i.id}">Mark complete</button>`:''}</div></div>`).join('')||'<p class="sub">Nothing urgent right now.</p>'}</section>
+<section class="s c12" id="tl">${timeline()}</section>
+<section class="s c6"><h2>Context insights</h2><p class="sub">Only patterns found in your own items.</p>${ins.map(n=>`<div class="ins ${n.w?'w':''}"><button class="x" data-a="dis" data-v="${n.id}" aria-label="Dismiss">✕</button><b>${n.k}</b><div>${esc(n.t)}</div><button data-a="sel" data-v="${n.go}" style="margin-top:6px">${n.b}</button></div>`).join('')||'<p class="sub">No patterns detected yet.</p>'}</section>
+<section class="s c6"><h2>Context load</h2><p class="sub">Workload only, not a wellbeing measure.</p><div class="load">${s.load}%</div><div class="meter" role="img" aria-label="Load ${s.load} percent"><i style="width:${s.load}%;background:var(--${col})"></i></div><p><b>${s.lvl}</b> · ${s.tasks} active tasks · ${s.dl} deadlines · ${s.ev} events · ${s.cf.length} conflicts</p><small class="sub">Formula: 4 × tasks + 6 × deadlines (7 days) + 2 × events (7 days) + 10 × conflicts = ${s.raw}, capped at 100. Under 35 is light, under 70 moderate.</small></section>
+<section class="s c6"><div class="row"><h2>Progress pulse</h2><div class="tabs">${['Tasks','Deadlines','Projects','Study'].map(m=>`<button data-a="met" data-v="${m}" class="${m===S.metric?'on':''}">${m}</button>`).join('')}</div></div><div class="bars">${pr.h.map((v,k)=>`<div><span>${v}</span><i style="height:${Math.min(100,v*13)}%"></i><span>${wd(k-6)[0]}</span></div>`).join('')}</div><p><b>${pr.rate}%</b> completion rate (completed vs. completed plus still open).</p></section>
+<section class="s c6"><h2>Context heatmap</h2><p class="sub">Select a day to filter the timeline.</p><div class="heat"><span></span>${[...Array(7)].map((_,d)=>`<span>${d?wd(d):'Today'}</span>`).join('')}${hm.map(r=>`<span>${esc(r.c)}</span>${r.v.map((v,d)=>`<button data-a="day" data-v="${d}" style="--v:${v}" class="${S.day===d?'on':''}" aria-label="${esc(r.c)} ${wd(d)}: ${v} items">${v||''}</button>`).join('')}`).join('')}</div></section>`}
+/* ---- dialogs, focus, capture, search ---- */
+const dlg=$('#dlg'),open=h=>{dlg.innerHTML=h+'<p style="text-align:right;margin:14px 0 0"><button data-a="close">Close</button></p>';dlg.showModal()};
+const why=id=>{const i=by(id),x={i,...score(i)};open(`<h3>Why this recommendation?</h3><p class="sub">${esc(i.title)}</p>${reasons(x).map(r=>`<div>✓ ${esc(r)}</div>`).join('')}<p class="sub" style="margin-top:10px">Score ${x.s.toFixed(2)} = ${Object.entries(x.p).filter(e=>e[1]).map(([k,v])=>k+' '+v.toFixed(2)).join(' + ')}. High at 0.55 or more, medium at 0.35 or more.</p><b>Sources</b><br>${srcs(i).map(s=>`<span class="tag">${esc(s)}</span>`).join('')}`)};
+const cfd=id=>{const p=conflicts().find(p=>p[0].id===id);open(`<h3>Possible conflict</h3><p>${esc(p[0].title)} runs ${hh(p[0].h)} to ${hh(p[0].h+p[0].dur)}. ${esc(p[1].title)} starts ${hh(p[1].h)}${p[1].trav?` and needs about ${p[1].trav} minutes of travel`:''}.</p><p class="sub">Flagged when an event starts before the previous one ends plus travel time. Consider moving one of them or confirming the exam time.</p>`)};
+let tm=null;const focus=id=>{const i=by(id),f=$('#focus');f.hidden=false;let sec=45*60;clearInterval(tm);
+const draw=(run)=>{f.innerHTML=`<div><h3 class="sub">Focus mode</h3><h1>${esc(i.title)}</h1><p class="sub">${when(i)}${i.type==='task'?' · progress '+i.prog+'%':''}</p>${i.type==='task'?`<div class="bar" style="max-width:360px;margin:8px auto"><i style="width:${i.prog}%"></i></div>`:''}<div class="timer" aria-live="off">${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}</div><p class="sub">Related: ${i.links.map(by).filter(Boolean).map(o=>esc(o.title)).join(', ')||'nothing linked'}</p><button class="pri" data-a="ftimer">${run?'Pause':'Start 45 min session'}</button> <button data-a="fexit">Exit focus mode</button></div>`};
+draw(0);f._draw=draw;f._run=0;f._tick=()=>{f._run=!f._run;clearInterval(tm);if(f._run)tm=setInterval(()=>{sec=Math.max(0,sec-1);draw(1)},1000);draw(f._run)}};
+const cap=()=>open(`<h3>Capture</h3><select id="ct"><option value="task">Task</option><option value="note">Note</option><option value="event">Event</option><option value="text">Pasted text</option></select><textarea id="cx" rows="3" placeholder="e.g. Submit report tomorrow 5pm"></textarea><label>Or upload an image or PDF <input type="file" id="cf" accept="image/*,.pdf"></label><p><button class="pri" data-a="analyze">Analyze and add</button></p><div id="cr"></div>`);
+async function analyze(){const t=$('#cx').value.trim(),f=$('#cf').files[0];if(!t&&!f){$('#cr').textContent='Add some text or a file first.';return}
+const text=t||f.name,ty=f?'document':$('#ct').value;let d=0,low=text.toLowerCase(),m;if(low.includes('tomorrow'))d=1;else if((m=low.match(/in (\d+) days?/)))d=+m[1];else[...Array(7)].forEach((_,k)=>{if(k&&low.includes(wd(k).toLowerCase()))d=k});
+const tm2=low.match(/(\d{1,2})(?::(\d\d))?\s?(am|pm)/),h=tm2?(+tm2[1]%12)+(tm2[3]==='pm'?12:0)+(+(tm2[2]||0))/60:null;
+const words=low.split(/\W+/).filter(w=>w.length>3),rel=I().filter(i=>words.some(w=>i.title.toLowerCase().includes(w)));
+const step=['Information extracted','Context identified','Related items found'];const r=$('#cr');r.innerHTML='Analyzing...';
+for(const s of step){await new Promise(z=>setTimeout(z,matchMedia('(prefers-reduced-motion:reduce)').matches?0:450));r.innerHTML+=`<div>✓ ${s}</div>`}
+const it=mk('u'+Date.now(),ty==='note'||ty==='text'?'document':ty,text.slice(0,60),{d:ty==='document'?0:d,h:ty==='event'?h??9:ty==='task'?null:null,src:f?'Upload':'Quick capture',conf:tm2||d?.85:.7,links:rel.map(x=>x.id),cat:rel[0]?.cat||'Tasks',imp:.5,isNew:1,due:0});
+if(ty==='task'&&h!=null)it.h=h;I().push(it);rel.forEach(x=>x.links.push(it.id));
+r.innerHTML+=`<p><b>Detected:</b> ${it.type}, ${when(it)}, confidence ${Math.round(it.conf*100)}%<br><b>Related:</b> ${rel.map(x=>esc(x.title)).join(', ')||'nothing yet'}</p>`;render()}
+function search(q){const L=q.toLowerCase(),w=L.split(/\W+/).filter(x=>x.length>3&&!['what','need','finish','about','show','related','coming','this','week','with','that','have'].includes(x)),wk=/week/.test(L),ty=/deadline/.test(L)?'deadline':/document|file/.test(L)?'document':null;
+let R=I().filter(i=>(ty?i.type===ty:true)&&(w.length?w.some(x=>(i.title+i.cat+i.src).toLowerCase().includes(x)||i.links.map(by).some(o=>o&&o.title.toLowerCase().includes(x))):true)&&(!wk||i.d<0||i.d<=7));
+if(/finish|need|coming|deadline/.test(L))R=R.filter(i=>i.d>=0&&!i.done);
+const G={Documents:R.filter(i=>i.type==='document'),Tasks:R.filter(i=>i.type==='task'),Events:R.filter(i=>i.type==='event'),Deadlines:R.filter(i=>i.type==='deadline'),Context:R.filter(i=>['project','organization','person'].includes(i.type)),Relationships:[...new Set(R.flatMap(i=>i.links))].map(by).filter(o=>o&&!R.includes(o))};
+open(`<h3>${esc(q)}</h3>`+(Object.values(G).some(g=>g.length)?Object.entries(G).filter(e=>e[1].length).map(([k,v])=>`<p class="sub" style="margin:12px 0 2px">${k}</p>${v.map(i=>`<button class="tag" data-a="sel" data-v="${i.id}">${esc(i.title)}</button>`).join('')}`).join(''):'<p class="sub">Nothing matches yet. Try capturing more context.</p>'))}
+/* ---- events ---- */
+const go=id=>{S.sel=id;S.view=S.view;dlg.open&&dlg.close();render();$('#orb')?.scrollIntoView({block:'nearest',behavior:'smooth'})};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,v=b.dataset.v;
+({sel:()=>go(v),view:()=>{S.view=v;render()},day:()=>{S.day=+v;render();$('#tl')?.scrollIntoView({block:'nearest',behavior:'smooth'})},met:()=>{S.metric=v;render()},dis:()=>{S.dis.add(v);render()},
+done:()=>{const i=by(v);i.done=true;if(i.type==='task'){H().Tasks[6]++;if(i.cat==='Projects')H().Projects[6]++}else if(i.type==='deadline')H().Deadlines[6]++;S.sel=null;render()},
+why:()=>why(v),cf:()=>cfd(v),focus:()=>focus(v),ftimer:()=>$('#focus')._tick(),fexit:()=>{clearInterval(tm);$('#focus').hidden=true},close:()=>dlg.close(),cap,analyze,
+scroll:()=>document.getElementById(v).scrollIntoView({behavior:'smooth'})}[a]||(()=>{}))()});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.node')){e.preventDefault();e.target.dispatchEvent(new MouseEvent('click',{bubbles:true}))}if(e.key==='Escape'&&!$('#focus').hidden){clearInterval(tm);$('#focus').hidden=true}});
+$('#q').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim())search(e.target.value.trim())});
+render();
+</script></body></html>
